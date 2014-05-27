@@ -5,4 +5,15 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
+    <string name="username">ユーザー名</string>
+    <string name="password">パスワード</string>
+    <string name="login">ログインする</string>
+    <string name="logout">ログアウトする</string>
+    <string name="setting">設定画面を開く</string>
+    <string name="save">保存する</string>
+
+    <string name="login_guide">Titech Pubnetへのログイン・ログアウトを行います。</string>
+    <string name="login_setting">ユーザー名とパスワードを設定します。</string>
+    <string name="setting_guide">ユーザー名とパスワードは平文で端末に保存されます。</string>
+
 </resources>
