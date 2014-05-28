@@ -12,8 +12,15 @@
     <string name="setting">設定画面を開く</string>
     <string name="save">保存する</string>
 
-    <string name="login_guide">Titech Pubnetへのログイン・ログアウトを行います。</string>
-    <string name="login_setting">ユーザー名とパスワードを設定します。</string>
+    <string name="login_guide_login">Titech Pubnetへのログイン・ログアウトを行います。</string>
+    <string name="login_guide_setting">ユーザー名とパスワードを設定します。</string>
     <string name="setting_guide">ユーザー名とパスワードは平文で端末に保存されます。</string>
+
+    <string name="login_toast_login">ログインしました。</string>
+    <string name="login_toast_logout">ログアウトしました。</string>
+    <string name="login_toast_empty">設定が完了していないため実行できません。</string>
+    <string name="login_toast_error">エラーが発生しました。</string>
+    <string name="setting_toast_empty">入力値が空のため保存できません。</string>
+    <string name="setting_toast_save">保存しました。</string>
 
 </resources>

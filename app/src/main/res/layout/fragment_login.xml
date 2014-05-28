@@ -10,7 +10,7 @@
 
     <TextView
         android:id="@+id/login_textview_guide"
-        android:text="@string/login_guide"
+        android:text="@string/login_guide_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -33,7 +33,7 @@
 
     <TextView
         android:id="@+id/login_textview_setting"
-        android:text="@string/login_setting"
+        android:text="@string/login_guide_setting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/login_button_logout"
