@@ -56,19 +56,22 @@ public class LoginFragment extends Fragment {
         super.onResume();
 
         loginUtil = new LoginUtil(getActivity(), new LoginUtil.Listener() {
-            @Override
-            public void onResponse(LoginUtil.RequestType type, String response) {
-                String s;
+            private String getStringForRequestType(LoginUtil.RequestType type) {
                 if (type == LoginUtil.RequestType.Login) {
-                    s = getString(R.string.login_toast_login);
+                    return getString(R.string.login_toast_login);
                 } else {
-                    s = getString(R.string.login_toast_logout);
+                    return getString(R.string.login_toast_logout);
                 }
+            }
 
-                Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
+            @Override
+            public void onResponse(LoginUtil loginUtil, LoginUtil.RequestType type, String response) {
+                android.util.Log.d("com.tondol.pubnetautologin", "onResponse: " + response);
+                Toast.makeText(getActivity(), getStringForRequestType(type), Toast.LENGTH_SHORT).show();
             }
             @Override
-            public void onErrorResponse(LoginUtil.RequestType type, Exception e) {
+            public void onErrorResponse(LoginUtil loginUtil, LoginUtil.RequestType type, Exception e) {
+                android.util.Log.d("com.tondol.pubnetautologin", "onErrorResponse: " + e.getLocalizedMessage());
                 Toast.makeText(getActivity(), getString(R.string.login_toast_error), Toast.LENGTH_SHORT).show();
             }
         });

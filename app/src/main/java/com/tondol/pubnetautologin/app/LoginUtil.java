@@ -7,8 +7,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.HttpClientStack;
-import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -30,13 +28,13 @@ public class LoginUtil {
     }
 
     public LoginUtil(Context context, Listener listener) {
-        queue = Volley.newRequestQueue(context, new HttpClientStack(new DefaultHttpClient()));
+        queue = Volley.newRequestQueue(context);
         this.listener = listener;
     }
 
     public static interface Listener {
-        public void onResponse(RequestType type, String response);
-        public void onErrorResponse(RequestType type, Exception e);
+        public void onResponse(LoginUtil loginUtil, RequestType type, String response);
+        public void onErrorResponse(LoginUtil loginUtil, RequestType type, Exception e);
     }
 
     public void start() {
@@ -57,15 +55,15 @@ public class LoginUtil {
             @Override
             public void onResponse(String response) {
                 if (response.indexOf("<title>Logged In</title>") < 0) {
-                    listener.onErrorResponse(RequestType.Login, new RuntimeException("login error"));
+                    listener.onErrorResponse(LoginUtil.this, RequestType.Login, new RuntimeException("login error"));
                 } else {
-                    listener.onResponse(RequestType.Login, response);
+                    listener.onResponse(LoginUtil.this, RequestType.Login, response);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                listener.onErrorResponse(RequestType.Login, error);
+                listener.onErrorResponse(LoginUtil.this, RequestType.Login, error);
             }
         }) {
             @Override
@@ -90,15 +88,15 @@ public class LoginUtil {
             @Override
             public void onResponse(String response) {
                 if (response.indexOf("<title>Web Authentication</title>") < 0) {
-                    listener.onErrorResponse(RequestType.Logout, new RuntimeException("logout error"));
+                    listener.onErrorResponse(LoginUtil.this, RequestType.Logout, new RuntimeException("logout error"));
                 } else {
-                    listener.onResponse(RequestType.Logout, response);
+                    listener.onResponse(LoginUtil.this, RequestType.Logout, response);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                listener.onErrorResponse(RequestType.Logout, error);
+                listener.onErrorResponse(LoginUtil.this, RequestType.Logout, error);
             }
         }) {
             @Override
