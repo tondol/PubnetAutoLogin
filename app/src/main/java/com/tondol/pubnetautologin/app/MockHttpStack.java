@@ -1,7 +1,5 @@
 package com.tondol.pubnetautologin.app;
 
-import android.preference.PreferenceActivity;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.toolbox.HttpStack;

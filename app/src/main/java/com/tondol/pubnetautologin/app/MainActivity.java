@@ -1,14 +1,10 @@
 package com.tondol.pubnetautologin.app;
 
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-
 
 public class MainActivity extends ActionBarActivity {
 
@@ -28,5 +24,18 @@ public class MainActivity extends ActionBarActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_settings &&
+                !(getSupportFragmentManager().findFragmentById(R.id.container) instanceof SettingFragment)) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, new SettingFragment())
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .addToBackStack(null)
+                    .commit();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
