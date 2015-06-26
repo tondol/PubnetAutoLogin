@@ -16,14 +16,14 @@ public class WifiReceiver extends BroadcastReceiver {
         LoginUtil loginUtil = new LoginUtil(context, new LoginUtil.Listener() {
             @Override
             public void onResponse(LoginUtil loginUtil, LoginUtil.RequestType type, String response) {
-                android.util.Log.d("com.tondol.pubnetautologin", "onResponse: " + response);
+                android.util.Log.d("pubnetautologin", "onResponse: " + response);
                 Toast.makeText(context, context.getString(R.string.login_toast_login), Toast.LENGTH_SHORT).show();
 
                 loginUtil.stop();
             }
             @Override
             public void onErrorResponse(LoginUtil loginUtil, LoginUtil.RequestType type, Exception e) {
-                android.util.Log.d("com.tondol.pubnetautologin", "onErrorResponse: " + e.getLocalizedMessage());
+                android.util.Log.d("pubnetautologin", "onErrorResponse: " + e.getLocalizedMessage());
                 Toast.makeText(context, context.getString(R.string.login_toast_error), Toast.LENGTH_SHORT).show();
 
                 loginUtil.stop();
@@ -37,17 +37,17 @@ public class WifiReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        android.util.Log.d("com.tondol.pubnetautologin", "onReceive");
+        android.util.Log.d("pubnetautologin", "onReceive");
 
         if (intent.getAction().equals(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION)) {
-            android.util.Log.d("com.tondol.pubnetautologin", "SUPPLICANT_STATE_CHANGED_ACTION");
+            android.util.Log.d("pubnetautologin", "SUPPLICANT_STATE_CHANGED_ACTION");
             SupplicantState state = intent.getParcelableExtra(WifiManager.EXTRA_NEW_STATE);
 
             if (state == SupplicantState.COMPLETED) {
                 WifiManager wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
                 String ssid = wm.getConnectionInfo().getSSID().replace("\"", "");
 
-                android.util.Log.d("com.tondol.pubnetautologin", "SupplicantState.COMPLETED: " + ssid);
+                android.util.Log.d("pubnetautologin", "SupplicantState.COMPLETED: " + ssid);
                 processForSSID(context, ssid);
             }
         }
