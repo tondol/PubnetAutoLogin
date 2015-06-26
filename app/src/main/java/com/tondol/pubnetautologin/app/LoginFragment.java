@@ -66,12 +66,12 @@ public class LoginFragment extends Fragment {
 
             @Override
             public void onResponse(LoginUtil loginUtil, LoginUtil.RequestType type, String response) {
-                android.util.Log.d("com.tondol.pubnetautologin", "onResponse: " + response);
+                android.util.Log.d("pubnetautologin", "onResponse: " + response);
                 Toast.makeText(getActivity(), getStringForRequestType(type), Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onErrorResponse(LoginUtil loginUtil, LoginUtil.RequestType type, Exception e) {
-                android.util.Log.d("com.tondol.pubnetautologin", "onErrorResponse: " + e.getLocalizedMessage());
+                android.util.Log.d("pubnetautologin", "onErrorResponse: " + e.getLocalizedMessage());
                 Toast.makeText(getActivity(), getString(R.string.login_toast_error), Toast.LENGTH_SHORT).show();
             }
         });
