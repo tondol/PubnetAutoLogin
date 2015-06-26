@@ -12,8 +12,8 @@ import android.widget.Toast;
  * Created by hosaka on 2014/05/28.
  */
 public class LoginFragment extends Fragment {
-    private LoginUtil loginUtil;
-    private SettingUtil settingUtil;
+    private LoginStrategy loginStorategy;
+    private SettingStrategy settingStrategy;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -21,20 +21,20 @@ public class LoginFragment extends Fragment {
         v.findViewById(R.id.login_button_login).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String username = settingUtil.getUsername();
-                String password = settingUtil.getPassword();
+                String username = settingStrategy.getUsername();
+                String password = settingStrategy.getPassword();
 
                 if (username == null || password == null) {
                     Toast.makeText(getActivity(), getString(R.string.login_toast_empty), Toast.LENGTH_SHORT).show();
                 } else {
-                    loginUtil.login(username, password);
+                    loginStorategy.login(username, password);
                 }
             }
         });
         v.findViewById(R.id.login_button_logout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loginUtil.logout();
+                loginStorategy.logout();
             }
         });
         v.findViewById(R.id.login_button_setting).setOnClickListener(new View.OnClickListener() {
@@ -55,9 +55,9 @@ public class LoginFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        loginUtil = new LoginUtil(getActivity(), new LoginUtil.Listener() {
-            private String getStringForRequestType(LoginUtil.RequestType type) {
-                if (type == LoginUtil.RequestType.Login) {
+        loginStorategy = new TitechPubnetLoginStrategy(getActivity(), new LoginStrategy.Listener() {
+            private String getStringForRequestType(LoginStrategy.RequestType type) {
+                if (type == LoginStrategy.RequestType.Login) {
                     return getString(R.string.login_toast_login);
                 } else {
                     return getString(R.string.login_toast_logout);
@@ -65,24 +65,24 @@ public class LoginFragment extends Fragment {
             }
 
             @Override
-            public void onResponse(LoginUtil loginUtil, LoginUtil.RequestType type, String response) {
+            public void onResponse(LoginStrategy loginUtil, LoginStrategy.RequestType type, String response) {
                 android.util.Log.d("pubnetautologin", "onResponse: " + response);
                 Toast.makeText(getActivity(), getStringForRequestType(type), Toast.LENGTH_SHORT).show();
             }
             @Override
-            public void onErrorResponse(LoginUtil loginUtil, LoginUtil.RequestType type, Exception e) {
+            public void onErrorResponse(LoginStrategy loginUtil, LoginStrategy.RequestType type, Exception e) {
                 android.util.Log.d("pubnetautologin", "onErrorResponse: " + e.getLocalizedMessage());
                 Toast.makeText(getActivity(), getString(R.string.login_toast_error), Toast.LENGTH_SHORT).show();
             }
         });
-        loginUtil.start();
+        loginStorategy.start();
 
-        settingUtil = new SettingUtil(getActivity());
+        settingStrategy = new PreferenceSettingStrategy(getActivity());
     }
 
     @Override
     public void onPause() {
-        loginUtil.stop();
+        loginStorategy.stop();
 
         super.onPause();
     }

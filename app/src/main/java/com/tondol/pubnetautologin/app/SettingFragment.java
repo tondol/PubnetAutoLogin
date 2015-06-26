@@ -12,7 +12,7 @@ import android.widget.Toast;
  * Created by hosaka on 2014/05/28.
  */
 public class SettingFragment extends Fragment {
-    private SettingUtil settingUtil;
+    private SettingStrategy settingStrategy;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -27,8 +27,8 @@ public class SettingFragment extends Fragment {
                         password.length() == 0) {
                     Toast.makeText(getActivity(), getString(R.string.setting_toast_empty), Toast.LENGTH_SHORT).show();
                 } else {
-                    settingUtil.setUsername(username);
-                    settingUtil.setPassword(password);
+                    settingStrategy.setUsername(username);
+                    settingStrategy.setPassword(password);
 
                     Toast.makeText(getActivity(), getString(R.string.setting_toast_save), Toast.LENGTH_SHORT).show();
                     getFragmentManager().popBackStack();
@@ -43,9 +43,9 @@ public class SettingFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        settingUtil = new SettingUtil(getActivity());
+        settingStrategy = new PreferenceSettingStrategy(getActivity());
 
-        ((EditText) getView().findViewById(R.id.setting_edittext_username)).setText(settingUtil.getUsername());
-        ((EditText) getView().findViewById(R.id.setting_edittext_password)).setText(settingUtil.getPassword());
+        ((EditText) getView().findViewById(R.id.setting_edittext_username)).setText(settingStrategy.getUsername());
+        ((EditText) getView().findViewById(R.id.setting_edittext_password)).setText(settingStrategy.getPassword());
     }
 }

@@ -8,31 +8,43 @@ import android.net.wifi.WifiManager;
 import android.widget.Toast;
 
 public class WifiReceiver extends BroadcastReceiver {
-    private void processForSSID(final Context context, String ssid) {
-        if (!ssid.equals("titech-pubnet")) {
-            return;
-        }
 
-        LoginUtil loginUtil = new LoginUtil(context, new LoginUtil.Listener() {
+    private LoginStrategy getLoginStrategy(final Context context, String ssid) {
+        LoginStrategy.Listener listener = new LoginStrategy.Listener() {
             @Override
-            public void onResponse(LoginUtil loginUtil, LoginUtil.RequestType type, String response) {
+            public void onResponse(LoginStrategy loginUtil, LoginStrategy.RequestType type, String response) {
                 android.util.Log.d("pubnetautologin", "onResponse: " + response);
                 Toast.makeText(context, context.getString(R.string.login_toast_login), Toast.LENGTH_SHORT).show();
 
                 loginUtil.stop();
             }
             @Override
-            public void onErrorResponse(LoginUtil loginUtil, LoginUtil.RequestType type, Exception e) {
+            public void onErrorResponse(LoginStrategy loginUtil, LoginStrategy.RequestType type, Exception e) {
                 android.util.Log.d("pubnetautologin", "onErrorResponse: " + e.getLocalizedMessage());
                 Toast.makeText(context, context.getString(R.string.login_toast_error), Toast.LENGTH_SHORT).show();
 
                 loginUtil.stop();
             }
-        });
-        SettingUtil settingUtil = new SettingUtil(context);
+        };
 
-        loginUtil.start();
-        loginUtil.login(settingUtil.getUsername(), settingUtil.getPassword());
+        if (ssid.equals("titech-pubent") || ssid.equals("TokyoTech")) {
+            return new TitechPubnetLoginStrategy(context, listener);
+        } else {
+            throw new RuntimeException("The SSID is not supported: " + ssid);
+        }
+    }
+
+    private void processForSSID(Context context, String ssid) {
+        try {
+            LoginStrategy loginStrategy = getLoginStrategy(context, ssid);
+            SettingStrategy settingStrategy = new PreferenceSettingStrategy(context);
+
+            loginStrategy.start();
+            loginStrategy.login(settingStrategy.getUsername(), settingStrategy.getPassword());
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            Toast.makeText(context, "The SSID is not supported", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
