@@ -5,20 +5,18 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 /**
- * Created by hosaka on 2014/05/28.
+ * Created by hosaka on 2015/06/26.
  */
-public class SettingUtil {
+public class PreferenceSettingStrategy extends SettingStrategy {
     private static final String USERNAME_FIELD = "com.tondol.pubnetautologin.username";
     private static final String PASSWORD_FIELD = "com.tondol.pubnetautologin.password";
 
-    private Context context;
-
-    public SettingUtil(Context context) {
-        this.context = context;
+    public PreferenceSettingStrategy(Context context) {
+        super(context);
     }
 
     private SharedPreferences getSharedPreferences() {
-        return PreferenceManager.getDefaultSharedPreferences(context);
+        return PreferenceManager.getDefaultSharedPreferences(getContext());
     }
 
     public void setUsername(String username) {
@@ -38,4 +36,5 @@ public class SettingUtil {
     public String getPassword() {
         return getSharedPreferences().getString(PASSWORD_FIELD, null);
     }
+
 }
