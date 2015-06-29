@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -48,6 +49,9 @@ public class LoginFragment extends Fragment {
             }
         });
 
+        // デバッグ時はVISIBLEにする
+        v.findViewById(R.id.login_debug).setVisibility(View.GONE);
+
         return v;
     }
 
@@ -66,22 +70,32 @@ public class LoginFragment extends Fragment {
 
             @Override
             public void onResponse(LoginStrategy loginUtil, LoginStrategy.RequestType type, String response) {
-                android.util.Log.d("pubnetautologin", "onResponse: " + response);
+                App.getInstance().log("LoginFragment$LoginStrategy.Listener#onResponse");
                 Toast.makeText(getActivity(), getStringForRequestType(type), Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onErrorResponse(LoginStrategy loginUtil, LoginStrategy.RequestType type, Exception e) {
-                android.util.Log.d("pubnetautologin", "onErrorResponse: " + e.getLocalizedMessage());
+                App.getInstance().log("LoginFragment$LoginStrategy.Listener#onErrorResponse: " + e.getLocalizedMessage());
                 Toast.makeText(getActivity(), getString(R.string.login_toast_error), Toast.LENGTH_SHORT).show();
             }
         });
         loginStorategy.start();
 
         settingStrategy = new PreferenceSettingStrategy(getActivity());
+
+        App.getInstance().setLoggingListener(new App.LoggingListener() {
+            @Override
+            public void onLog(String s) {
+                TextView tv = (TextView) getView().findViewById(R.id.login_debug);
+                tv.append(s + "\n");
+            }
+        });
     }
 
     @Override
     public void onPause() {
+        App.getInstance().setLoggingListener(null);
+
         loginStorategy.stop();
 
         super.onPause();

@@ -26,6 +26,9 @@ public class TitechPubnetLoginStrategy extends LoginStrategy {
             @Override
             public void onResponse(String response) {
                 if (response.indexOf("<title>Logged In</title>") < 0) {
+                    App.getInstance().log("### TitechPubnetLoginStrategy -- BEGIN ###");
+                    App.getInstance().log(response);
+                    App.getInstance().log("### TitechPubnetLoginStrategy ---- END ###");
                     getListener().onErrorResponse(TitechPubnetLoginStrategy.this, RequestType.Login, new RuntimeException("login error"));
                 } else {
                     android.util.Log.d("pubnetautologin", response);
@@ -62,6 +65,9 @@ public class TitechPubnetLoginStrategy extends LoginStrategy {
             @Override
             public void onResponse(String response) {
                 if (response.indexOf("<title>Web Authentication</title>") < 0) {
+                    App.getInstance().log("### TitechPubnetLoginStrategy -- BEGIN ###");
+                    App.getInstance().log(response);
+                    App.getInstance().log("### TitechPubnetLoginStrategy ---- END ###");
                     getListener().onErrorResponse(TitechPubnetLoginStrategy.this, RequestType.Logout, new RuntimeException("logout error"));
                 } else {
                     getListener().onResponse(TitechPubnetLoginStrategy.this, RequestType.Logout, response);

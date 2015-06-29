@@ -47,4 +47,19 @@
         android:layout_below="@id/login_textview_setting"
         android:layout_marginTop="10dp" />
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@id/login_button_setting"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="10dp"
+        android:background="#ff000000">
+        <TextView
+            android:id="@+id/login_debug"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffffff"
+            android:singleLine="false" />
+    </ScrollView>
+
 </RelativeLayout>
